@@ -1,15 +1,29 @@
 const express = require('express');
 const axios = require('axios');
-const bodyParser = require('body-parser');
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
+const events = [];
+
+app.get('/events', (req, res)=>{
+   res.send(events);
+});
 
 app.post('/events', async (req, res)=>{
     const event =  req.body;
-    await axios.post("http://localhost:5000/events", event);
-    await axios.post("http://localhost:5001/events", event);
-    await axios.post("http://localhost:5002/events", event);
+    events.push(event);
+    await axios.post("http://localhost:5000/events", event).catch(
+        (err)=>{console.log(err.message)}
+    );
+    await axios.post("http://localhost:5001/events", event).catch(
+        (err)=>{console.log(err.message)}
+    );
+    await axios.post("http://localhost:5002/events", event).catch(
+        (err)=>{console.log(err.message)}
+    );
+    await axios.post("http://localhost:5003/events", event).catch(
+        (err)=>{console.log(err.message)}
+    );
     
     res.send({ status : 'OK'});
 

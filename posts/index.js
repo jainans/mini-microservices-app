@@ -1,5 +1,4 @@
 const express  = require('express');
-const bodyParser = require('body-parser');
 const {randomBytes}  = require("crypto");
 const cors = require('cors');
 const app = express();
@@ -7,7 +6,7 @@ const axios  = require('axios');
 const port = 5000 || process.env.port;
 const Posts = {};
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 app.get('/posts', (req, res)=>{
     res.send(Posts);
 
@@ -22,11 +21,11 @@ app.post('/posts', async (req, res)=>{
     };
 
     await axios.post('http://localhost:5005/events', {
-        type : "postCreated", 
+        type : "PostCreated", 
         data : {
             id, title
         }
-    })
+    }); 
 
     res.status(201).send(Posts[id]);
 
